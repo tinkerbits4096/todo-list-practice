@@ -3,15 +3,39 @@ import './App.css';
 import Header from "./MyComponents/Header";
 import { Footer } from "./MyComponents/Footer";
 import { Todos } from "./MyComponents/Todos";
+import { React, useState } from "react";
 
 function App() {
-  return (
-      <>
-          <Header />
-          <Todos />
-          <Footer />
-      </>
-  );
+    const onDelete = ( todo ) => {
+        console.log( "I am onDelete of todo", todo );
+        let index = todos.indexOf( todo );
+        todos.splice( index, 1 );
+    }
+
+    let todos = [
+        {
+            sno: 1,
+            title: "Practice React",
+            description: "Watch React tutorial videos"
+        },
+        {
+            sno: 2,
+            title: "Practice more React",
+            description: "Watch more React tutorial videos"
+        },
+        {
+            sno: 3,
+            title: "Practice even more React",
+            description: "Watch even more React tutorial videos"
+        }
+    ]
+    return (
+        <>
+            <Header title="My Todos List" searchBar={ true }/>
+            <Todos todos={ todos } onDelete={ onDelete }/>
+            <Footer/>
+        </>
+    );
 }
 
 export default App;
