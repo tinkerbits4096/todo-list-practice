@@ -4,43 +4,44 @@ import Header from "./MyComponents/Header";
 import { Footer } from "./MyComponents/Footer";
 import { Todos } from "./MyComponents/Todos";
 import { AddTodo } from "./MyComponents/AddTodo";
-import { React, useState } from "react";
+import React, { useState, useEffect } from "react";
 
 function App() {
+    let initTodo;
+    if(localStorage.getItem("todos") === null) {
+        initTodo = [];
+    }
+    else {
+        initTodo = JSON.parse(localStorage.getItem("todos"));
+    }
     const onDelete = ( todo ) => {
         console.log( "I am onDelete of todo", todo );
         setTodos(todos.filter((e) => {
             return e !== todo;
-        }))
+        }));
     }
 
     const addTodo = (title, desc) => {
-        let sno = todos.length + 1;
+        let sno;
+        if (todos.length === 0) {
+            sno = 1;
+        } else {
+            sno = todos[todos.length - 1].sno + 1;
+        }
         const myTodos = {
             sno: sno,
             title: title,
             desc: desc
         }
         setTodos([...todos, myTodos]);
+        localStorage.getItem("todos", JSON.stringify(todos));
     }
 
-    const [todos, setTodos] = useState([
-        {
-            sno: 1,
-            title: "Practice React",
-            description: "Watch React tutorial videos"
-        },
-        {
-            sno: 2,
-            title: "Practice more React",
-            description: "Watch more React tutorial videos"
-        },
-        {
-            sno: 3,
-            title: "Practice even more React",
-            description: "Watch even more React tutorial videos"
-        }
-    ]);
+
+    const [todos, setTodos] = useState(initTodo);
+    useEffect(() => {
+        localStorage.setItem("todos", JSON.stringify(todos));
+    }, [todos])
 
     return (
         <>
