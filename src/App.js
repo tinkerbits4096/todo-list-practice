@@ -3,16 +3,18 @@ import './App.css';
 import Header from "./MyComponents/Header";
 import { Footer } from "./MyComponents/Footer";
 import { Todos } from "./MyComponents/Todos";
+import { AddTodo } from "./MyComponents/AddTodo";
 import { React, useState } from "react";
 
 function App() {
     const onDelete = ( todo ) => {
         console.log( "I am onDelete of todo", todo );
-        let index = todos.indexOf( todo );
-        todos.splice( index, 1 );
+        setTodos(todos.filter((e) => {
+            return e !== todo;
+        }))
     }
 
-    let todos = [
+    const [todos, setTodos] = useState([
         {
             sno: 1,
             title: "Practice React",
@@ -28,10 +30,12 @@ function App() {
             title: "Practice even more React",
             description: "Watch even more React tutorial videos"
         }
-    ]
+    ]);
+
     return (
         <>
             <Header title="My Todos List" searchBar={ true }/>
+            <AddTodo />
             <Todos todos={ todos } onDelete={ onDelete }/>
             <Footer/>
         </>
